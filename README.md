@@ -1,6 +1,6 @@
 # image_native_resizer
 
-[![pub package](https://img.shields.io/pub/v/image_picker.svg)](https://pub.dartlang.org/packages/image_native_resizer)
+[![pub package](https://img.shields.io/pub/v/image_native_resizer.svg)](https://pub.dartlang.org/packages/image_native_resizer)
 
 A Flutter plugin that resizes images from native API, while keeping important EXIF attributes.
 
