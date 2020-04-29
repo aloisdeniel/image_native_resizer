@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.aloisdeniel.image_native_resizer">
+   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application>
+        <provider
+            android:name="com.aloisdeniel.image_native_resizer.ImageNativeResizerFileProvider"
+            android:authorities="${applicationId}.flutter.image_native_resizer"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/image_native_resizer_file_paths"/>
+        </provider>
+    </application>
+</manifest>
