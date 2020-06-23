@@ -7,6 +7,10 @@ class ImageNativeResizer {
   static const MethodChannel _channel =
       const MethodChannel('image_native_resizer');
 
+  /// Lock for ensuring that only one [resize] method call is running
+  /// at a given time.
+  static Future<Null> _isResizing;
+
   /// Resizes the image at the given [imagePath] to the given
   /// [maxWidth], [maxHeight] and/or [quality].
   ///
@@ -22,12 +26,35 @@ class ImageNativeResizer {
   }) async {
     assert(imagePath != null);
     assert(quality == null || (quality >= 0 && quality <= 100));
-    final path = await _channel.invokeMethod('resize', {
-      'imagePath': imagePath,
-      'maxWidth': maxWidth,
-      'maxHeight': maxHeight,
-      'quality': quality,
-    });
+
+    if (_isResizing != null) {
+      await _isResizing;
+      return resize(
+        imagePath: imagePath,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        quality: quality,
+      );
+    }
+
+    // lock
+    var completer = Completer<Null>();
+    _isResizing = completer.future;
+    String path;
+    try {
+      path = await _channel.invokeMethod('resize', {
+        'imagePath': imagePath,
+        'maxWidth': maxWidth,
+        'maxHeight': maxHeight,
+        'quality': quality,
+      });
+    } catch (e) {
+      rethrow;
+    } finally {
+      // unlock
+      completer.complete();
+      _isResizing = null;
+    }
     return path;
   }
 }

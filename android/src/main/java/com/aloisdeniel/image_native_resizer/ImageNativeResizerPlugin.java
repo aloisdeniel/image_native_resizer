@@ -1,4 +1,5 @@
 package com.aloisdeniel.image_native_resizer;
+import androidx.annotation.Nullable;
 
 import androidx.annotation.NonNull;
 
@@ -25,7 +26,7 @@ public class ImageNativeResizerPlugin implements FlutterPlugin, MethodCallHandle
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "image_native_resizer");
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "image_native_resizer");
     channel.setMethodCallHandler(this);
   }
 
@@ -60,7 +61,7 @@ public class ImageNativeResizerPlugin implements FlutterPlugin, MethodCallHandle
       final Double maxHeight = call.argument("maxHeight");
       final Integer quality = call.argument("quality");
       final String resultPath = imageResizer.resizeImageIfNeeded(imagePath,maxWidth,maxHeight,quality);
-    
+
       result.success(resultPath);
     } else {
       result.notImplemented();
@@ -100,7 +101,6 @@ public class ImageNativeResizerPlugin implements FlutterPlugin, MethodCallHandle
   private void tearDown() {
     this.imageResizer = null;
     channel.setMethodCallHandler(null);
-    channel = null;
   }
 
   private final ImageResizer constructImageResizer(final Activity setupActivity) {

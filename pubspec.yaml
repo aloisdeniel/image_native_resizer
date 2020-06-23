@@ -1,6 +1,6 @@
 name: image_native_resizer
 description: A Flutter plugin that resizes images from native API, while keeping important EXIF attributes.
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/aloisdeniel/image_native_resizer
 
 environment:

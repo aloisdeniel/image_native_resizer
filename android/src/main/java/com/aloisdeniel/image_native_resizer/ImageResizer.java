@@ -101,6 +101,8 @@ class ImageResizer {
     Bitmap scaledBmp = createScaledBitmap(bmp, width.intValue(), height.intValue(), false);
     File file =
         createImageOnExternalDirectory("/scaled_" + outputImageName, scaledBmp, imageQuality);
+    scaledBmp.recycle();
+    bmp.recycle();
     return file;
   }
 
